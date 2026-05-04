@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA — Корзина</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1A1A1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="AURA">
+    <link rel="apple-touch-icon" href="images/logo/icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cormorant+Unicase:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--white:#FFFFFF;--cream:#FBF9F6;--beige:#F2EDE6;--dark:#1A1A1A;--gray:#8C8C8C;--light-gray:#D9D9D9;--font-heading:'Cormorant Unicase','Cormorant',serif;--font-body:'Cormorant',serif}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--font-body);font-weight:300;font-size:16px;line-height:1.4;color:var(--dark);background:var(--cream);min-height:100vh;display:flex;flex-direction:column}
+        .header{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:14px 48px;display:flex;justify-content:center;align-items:center;background:rgba(251,249,246,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(0,0,0,0.05)}
+        .header__inner{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:1400px}.header__logo{text-decoration:none}.header__logo-img{height:24px}.header__nav{display:flex;gap:36px}.header__nav-link{font-family:var(--font-heading);font-size:13px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--dark)}.header__actions{display:flex;align-items:center;gap:20px}.header__action-btn{background:none;border:none;cursor:pointer;padding:4px;text-decoration:none;display:flex;align-items:center;position:relative}.header__action-btn img{width:18px;height:18px}.header__cart-count{position:absolute;top:-6px;right:-8px;background:var(--dark);color:var(--white);font-size:9px;min-width:14px;height:14px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:600}
+        .cart-page{flex:1;padding:120px 48px 80px}.cart-page__title{font-family:var(--font-heading);font-size:clamp(28px,4vw,44px);font-weight:300;letter-spacing:4px;text-transform:uppercase;margin-bottom:40px}.cart-content{display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:start}.cart-items{display:flex;flex-direction:column}.cart-item{display:grid;grid-template-columns:100px 1fr auto;gap:20px;padding:20px 0;border-bottom:1px solid var(--light-gray);align-items:center}.cart-item__image{width:100px;height:120px;object-fit:cover;background:var(--beige)}.cart-item__info{display:flex;flex-direction:column;gap:6px}.cart-item__name{font-family:var(--font-heading);font-size:14px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--dark)}.cart-item__price{font-size:16px}.cart-item__actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.cart-item__total{font-family:var(--font-heading);font-size:18px}.quantity-selector{display:flex;align-items:center;border:1px solid var(--dark)}.quantity-selector__btn{width:32px;height:32px;background:none;border:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}.quantity-selector__input{width:36px;height:32px;border:none;border-left:1px solid var(--dark);border-right:1px solid var(--dark);text-align:center;font-size:14px;background:none}.cart-item__remove{font-family:var(--font-heading);font-size:9px;letter-spacing:2px;text-transform:uppercase;background:none;border:none;cursor:pointer;color:var(--gray)}.cart-item__remove:hover{color:#c44}.cart-empty{text-align:center;padding:80px 0}.cart-empty__icon{font-size:56px;margin-bottom:20px}.cart-empty__text{font-family:var(--font-heading);font-size:18px;letter-spacing:2px;color:var(--gray);margin-bottom:28px}.cart-summary{background:var(--white);padding:28px;position:sticky;top:100px}.cart-summary__title{font-family:var(--font-heading);font-size:16px;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--light-gray)}.cart-summary__row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:15px}.cart-summary__row--total{font-family:var(--font-heading);font-size:20px;margin-top:14px;padding-top:14px;border-top:1px solid var(--light-gray)}.cart-summary__count{font-size:13px;color:var(--gray);margin-bottom:16px}.cart-summary__discount{color:#c44;font-size:13px}.btn{font-family:var(--font-heading);font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:0.3s;cursor:pointer;border:none;display:block;text-align:center}.btn--dark{background:var(--dark);color:var(--white);width:100%}.btn--dark:hover{background:#333}.btn--outline{background:none;color:var(--dark);border:1px solid var(--dark);width:100%;margin-top:10px}.btn--outline:hover{background:var(--dark);color:var(--white)}
+        .footer{background:#111;color:var(--white);padding:80px 48px 0;margin-top:auto}.footer__top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:60px;max-width:1400px;margin:0 auto;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.06)}.footer__brand{display:flex;flex-direction:column;gap:20px}.footer__logo-text{font-family:var(--font-heading);font-size:20px;letter-spacing:4px;text-transform:uppercase;opacity:0.8}.footer__desc{font-size:14px;line-height:1.6;color:rgba(255,255,255,0.4);max-width:300px}.footer__contact{display:flex;flex-direction:column;gap:4px;margin-top:8px}.footer__phone{font-family:var(--font-heading);font-size:20px;font-weight:300;letter-spacing:2px;color:var(--white);text-decoration:none}.footer__time{font-size:12px;color:rgba(255,255,255,0.35)}.footer__creators{font-size:11px;color:rgba(255,255,255,0.25);margin-top:8px;line-height:1.6}.footer__col-title{font-family:var(--font-heading);font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;color:rgba(255,255,255,0.35)}.footer__links{display:flex;flex-direction:column;gap:10px}.footer__link{color:rgba(255,255,255,0.55);text-decoration:none;font-size:14px;font-weight:300;transition:color 0.3s}.footer__link:hover{color:var(--white)}.footer__socials{display:flex;gap:12px}.footer__social-link{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,0.5);transition:all 0.3s;font-size:13px}.footer__social-link:hover{background:var(--white);color:#111;border-color:var(--white)}.footer__bottom{display:flex;justify-content:space-between;align-items:center;padding:28px 0;max-width:1400px;margin:0 auto;font-size:11px;color:rgba(255,255,255,0.25);flex-wrap:wrap;gap:8px}
+        @media(max-width:1024px){.header{padding:14px 24px}.header__nav{display:none}.cart-page{padding:100px 24px 60px}.cart-content{grid-template-columns:1fr}.cart-summary{position:static}.footer{padding:60px 24px 0}.footer__top{grid-template-columns:1fr 1fr;gap:40px}.footer__brand{grid-column:span 2}}
+        @media(max-width:640px){.header{padding:12px 16px}.cart-page{padding:90px 16px 40px}.cart-item{grid-template-columns:70px 1fr;gap:12px}.cart-item__image{width:70px;height:90px}.cart-item__actions{grid-column:span 2;flex-direction:row;justify-content:space-between}.footer{padding:48px 16px 0}.footer__top{grid-template-columns:1fr;gap:32px}.footer__brand{grid-column:span 1}}
+    </style>
+</head>
+<body>
+    <header class="header"><div class="header__inner">
+        <a href="index.html"><img src="images/logo/aura-black.png" alt="AURA" class="header__logo-img"></a>
+        <nav class="header__nav"><a href="catalog.html" class="header__nav-link">Каталог</a><a href="sales.html" class="header__nav-link">Акции</a><a href="index.html#about" class="header__nav-link">О бренде</a></nav>
+        <div class="header__actions">
+            <a href="favorites.html" class="header__action-btn"><img src="images/icons/Favorite.png" alt=""></a>
+            <a href="account.html" class="header__action-btn"><img src="images/icons/Lady.png" alt=""></a>
+            <a href="cart.html" class="header__action-btn"><img src="images/icons/Shopping Bag.png" alt=""><span class="header__cart-count" id="cartCount">0</span></a>
+        </div>
+    </div></header>
+
+    <div class="cart-page"><h1 class="cart-page__title" id="cartTitle">Товары в корзине (0)</h1>
+        <div class="cart-empty" id="cartEmpty"><div class="cart-empty__icon">🛍️</div><p class="cart-empty__text">В корзине пока ничего нет</p><a href="catalog.html" class="btn btn--dark" style="display:inline-block;width:auto;padding:14px 40px">Перейти в каталог</a></div>
+        <div class="cart-content" id="cartContent" style="display:none"><div class="cart-items" id="cartItems"></div>
+            <div class="cart-summary"><h3 class="cart-summary__title">Ваш заказ</h3><p class="cart-summary__count" id="summaryCount"></p>
+                <div class="cart-summary__row"><span>Товары</span><span id="summarySubtotal"></span></div>
+                <div class="cart-summary__row" id="discountRow" style="display:none"><span>Персональная скидка 5%</span><span class="cart-summary__discount" id="summaryDiscount"></span></div>
+                <div class="cart-summary__row"><span>Доставка</span><span>Бесплатно</span></div>
+                <div class="cart-summary__row cart-summary__row--total"><span>Итого</span><span id="summaryTotal"></span></div>
+                <a href="order.html" class="btn btn--dark" style="margin-top:20px">Оформить заказ</a><a href="catalog.html" class="btn btn--outline">Продолжить покупки</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer__top">
+            <div class="footer__brand"><span class="footer__logo-text">AURA</span><p class="footer__desc">AURA — косметика, созданная из чистой энергии природы.</p><div class="footer__contact"><a href="tel:88005819403" class="footer__phone">8 (800) 581-94-03</a><p class="footer__time">Ежедневно с 09:00 до 21:00</p><p class="footer__creators">Бурова Ксения Алексеевна<br>Дорошкевич Екатерина Борисовна</p></div></div>
+            <div><h4 class="footer__col-title">Клиентам</h4><div class="footer__links"><a href="loyalty.html" class="footer__link">Программа лояльности</a><a href="delivery.html" class="footer__link">Доставка и оплата</a><a href="faq.html" class="footer__link">Вопросы и ответы</a><a href="contacts.html" class="footer__link">Контакты</a></div><h4 class="footer__col-title" style="margin-top:28px">Документы</h4><div class="footer__links"><a href="privacy.html" class="footer__link">Политика cookie</a><a href="data.html" class="footer__link">Обработка данных</a><a href="terms.html" class="footer__link">Пользовательское соглашение</a><a href="loyalty-terms.html" class="footer__link">Условия лояльности</a><a href="offer.html" class="footer__link">Оферта</a></div></div>
+            <div><h4 class="footer__col-title">Социальные сети</h4><div class="footer__socials"><a href="https://t.me/aurakemerovo" target="_blank" class="footer__social-link" title="Telegram">T</a><a href="https://vk.com/club238358571" target="_blank" class="footer__social-link" title="ВКонтакте">VK</a><a href="#" class="footer__social-link" title="YouTube">YT</a></div><div class="footer__links" style="margin-top:16px"><a href="https://t.me/aurakemerovo" target="_blank" class="footer__link">Telegram</a><a href="https://vk.com/club238358571" target="_blank" class="footer__link">ВКонтакте</a><a href="#" class="footer__link">YouTube</a></div></div>
+        </div>
+        <div class="footer__bottom"><span>AURA 2026. Все права защищены.</span></div>
+    </footer>
+
+    <script>
+        function getCart(){return JSON.parse(localStorage.getItem('auraCart')||'[]')}function saveCart(c){localStorage.setItem('auraCart',JSON.stringify(c))}
+        function getProfile(){return JSON.parse(localStorage.getItem('auraProfile')||'{"name":"","surname":"","email":"","phone":""}')}
+        function getWord(n,o,t,f){n=Math.abs(n)%100;if(n>=11&&n<=19)return f;n=n%10;if(n===1)return o;if(n>=2&&n<=4)return t;return f}
+        function renderCart(){const cart=getCart(),profile=getProfile();const ce=document.getElementById('cartEmpty'),cc=document.getElementById('cartContent'),ci=document.getElementById('cartItems'),ct=document.getElementById('cartTitle'),sc=document.getElementById('summaryCount'),ss=document.getElementById('summarySubtotal'),st=document.getElementById('summaryTotal'),dr=document.getElementById('discountRow'),sd=document.getElementById('summaryDiscount');const ti=cart.reduce((s,i)=>s+i.quantity,0),tp=cart.reduce((s,i)=>s+i.price*i.quantity,0);ct.textContent=`Товары в корзине (${ti})`;updateCartCount(ti);if(cart.length===0){ce.style.display='block';cc.style.display='none';return}ce.style.display='none';cc.style.display='grid';ci.innerHTML=cart.map(i=>`<div class="cart-item"><a href="product.html?id=${i.id}"><img src="${i.img}" alt="${i.name}" class="cart-item__image"></a><div class="cart-item__info"><a href="product.html?id=${i.id}" class="cart-item__name">${i.name}</a><p class="cart-item__price">${i.priceDisplay}</p></div><div class="cart-item__actions"><p class="cart-item__total">${(i.price*i.quantity).toLocaleString('ru-RU')} ₽</p><div class="quantity-selector"><button class="quantity-selector__btn" onclick="changeQuantity(${i.id},-1)">−</button><input type="text" class="quantity-selector__input" value="${i.quantity}" readonly><button class="quantity-selector__btn" onclick="changeQuantity(${i.id},1)">+</button></div><button class="cart-item__remove" onclick="removeItem(${i.id})">Удалить</button></div></div>`).join('');sc.textContent=`${ti} ${getWord(ti,'товар','товара','товаров')}`;ss.textContent=`${tp.toLocaleString('ru-RU')} ₽`;
+        let finalPrice=tp;let discountApplied=0;
+        if(profile.name){discountApplied=Math.round(tp*0.05);finalPrice=tp-discountApplied;dr.style.display='flex';sd.textContent=`−${discountApplied.toLocaleString('ru-RU')} ₽`}else{dr.style.display='none'}
+        st.textContent=`${finalPrice.toLocaleString('ru-RU')} ₽`}
+        function changeQuantity(id,d){const c=getCart();const i=c.find(x=>x.id===id);if(!i)return;i.quantity+=d;i.quantity<=0?saveCart(c.filter(x=>x.id!==id)):saveCart(c);renderCart()}
+        function removeItem(id){saveCart(getCart().filter(i=>i.id!==id));renderCart()}
+        function updateCartCount(c){const el=document.getElementById('cartCount');if(el){el.textContent=c;el.style.display=c>0?'flex':'none'}}renderCart();
+    </script>
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>
